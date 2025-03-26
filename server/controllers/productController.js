@@ -8,7 +8,8 @@ export const getProducts = async (req, res) => {
         );
 
         console.log("fetched products", products);
-        res.status(200).json({success: true, data: products});
+        res.status(200).json({success: true, data: products.rows});
+
     } catch (error) {
         console.log("Error getProducts function", error);
         res.status(500).json({ success: false, message:"Internal Server Error" })
@@ -46,7 +47,7 @@ export const createProduct = async (req, res) => {
         );
 
         console.log("new product added: ", newProduct);
-        res.status(201).json({ success: true, data: newProduct[0] });
+        res.status(201).json({ success: true, data: newProduct.rows[0] });
 
     } catch (error) {
         console.log("Error createProduct function", error);
@@ -72,7 +73,7 @@ export const updateProduct = async (req, res) => {
             });
         }
 
-        res.status(200).json({ success: true, data: updateProduct[0] });
+        res.status(200).json({ success: true, data: updateProduct.rows[0] });
 
     } catch (error) {
         console.log("Error in updateProduct function", error);
@@ -96,7 +97,7 @@ export const deleteProduct = async (req, res) => {
             });
         }
 
-        res.status(200).json({ success: true, data: deletedProduct[0] })
+        res.status(200).json({ success: true, data: deletedProduct.rows[0] })
     } catch (error) {
         console.log("Error in deleteProduct function", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
