@@ -25,7 +25,10 @@ app.use("/api/products", productRoutes);
 
 async function initDB() {
   try {
-    const createTable = await pool.query("CREATE TABLE IF NOT EXISTS products ( id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, price DECIMAL(10,2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+    const createTable = await pool.query(
+      "CREATE TABLE IF NOT EXISTS products ( id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, price DECIMAL(10,2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+    )
+    console.log("Database initialized")
   } catch (error) {
       console.log("Error initDB", error);
   }
