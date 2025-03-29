@@ -25,7 +25,7 @@ export const getProduct = async (req, res) => {
             "SELECT * FROM products WHERE id = $1", [id]
         );
 
-        res.status(200).json({ success: true, data: product[0] });
+        res.status(200).json({ success: true, data: product.rows[0] });
 
     } catch (error) {
         console.log("Error in getProduct function", error);
@@ -62,18 +62,18 @@ export const updateProduct = async (req, res) => {
     const { name, price, image } = req.body;
 
     try {
-        const updateProduct = await pool.query(
+        const updatedProduct = await pool.query(
             "UPDATE PRODUCTS SET name = $1, price = $2, image = $3 WHERE id = $4 RETURNING *", [name, price, image, id]
         );
 
-        if(updateProduct.length === 0) {
+        if(updatedProduct.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Product not found"
             });
         }
 
-        res.status(200).json({ success: true, data: updateProduct.rows[0] });
+        res.status(200).json({ success: true, data: updatedProduct.rows[0] });
 
     } catch (error) {
         console.log("Error in updateProduct function", error);
@@ -86,11 +86,11 @@ export const deleteProduct = async (req, res) => {
     const { id } = req.params;
 
     try{
-        await pool.query(
+        const deletedProduct = await pool.query(
             "DELETE FROM products WHERE id = $1 RETURNING *", [id]
         );
 
-        if(deleteProduct.length === 0) {
+        if(deletedProduct.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Product not found"
